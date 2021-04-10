@@ -2,20 +2,75 @@
 
 Una aplicación web de administración de de Proyectos con  sus tareas la cual desarrolle  con Python usando el Framework Django.
 
+<p>
+  <strong>Características</strong>
+</p>
 
-Características
+<ol>
+  
+  <li>
+    <p>
+    Gestor de Proyectos que permite añadir Tareas con titulo, Socio "Operador", descripcion.
+    </p>  
+  </li>
+  
+  
+  <li>
+    <p>
+    Al desarrollar un Proyecto, al correo electronico "Email" del Socio "Operador" se le indicara que tiene un proyecto
+    </p>  
+  </li>
+  
+  
+  <li>
+    <p>
+      Cada proyecto  tiene tareas por realizar.
+    </p>  
+  </li>
+  
+  
+  <li>
+    <p>
+    Al realizar toda las tareas, el proyecto se dará por terminado
+    </p>  
+  </li>
+  
+  
+  
+  <li>
+    <p>
+      Enviamos Email con las credenciales al usuario creado por un Admin.
+    </p>  
+  </li>
+  
+  
 
-Gestor de Proyectos que permite añadir Tareas con titulo, Socio "Operador", descripcion.
-Al desarrollar un Proyecto, al correo electronico "Email" del Socio "Operador" se le indicara que tiene un proyecto
-Cada proyecto  tiene tareas por realizar.
-Al realizar toda las tareas, el proyecto se dará por terminado
-Enviamos Email con las credenciales al usuario creado por un Admin.
-
-Requerimientos.
+</ol>
 
 
-Python 3.5+ (Desarrollado con Python 3.8).
-Django 2.2 y otras dependencias declaradas en el archivo requirements.txt.
-Una base de datos compatible con Django PostgreSQL (por defecto usamos la db SQLite)
-
+<p>
+  <strong>Requerimientos.</strong>
+</p>
+<ol>
+   <li>
+    <p>
+      Python 3.5+ (Desarrollado con Python 3.8).
+    </p>  
+  </li>
+  
+  
+   <li>
+    <p>
+    Django 2.2 y otras dependencias declaradas en el archivo requirements.txt.
+    </p>  
+  </li>
+  
+  
+   <li>
+    <p>
+    Una base de datos compatible con Django PostgreSQL (por defecto usamos la db SQLite)
+    </p>  
+  </li>
+ 
+</ol>
 
