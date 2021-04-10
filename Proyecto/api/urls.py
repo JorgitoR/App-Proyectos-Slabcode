@@ -15,12 +15,12 @@ urlpatterns = [
 	path('crear/', CrearUsuarioView.as_view(), name='CrearUsuarioView'),
 	
 	path('crear_proyecto/', CrearProyectoAPIView.as_view(), name='CrearProyectoAPIView'),
-	path('proyecto/<int:proyecto_id>/crear_tarea/', CrearTareaAPIView.as_view(), name='CrearTareaAPIView'),
+	path('crear_tarea/proyecto/<int:proyecto_id>/', CrearTareaAPIView.as_view(), name='CrearTareaAPIView'),
 	
 
 	path('tareas/', TareaListaAPIView.as_view(), name='TareaListaAPIView'),
 	
-	path('registro/', RegistrarView.as_view(), name='RegistrarView'),
+	path('registro_usuario/', RegistrarView.as_view(), name='RegistrarView'),
 	
     path('api_generate_token/', views.obtain_auth_token),
 

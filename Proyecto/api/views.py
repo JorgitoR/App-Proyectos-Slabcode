@@ -44,6 +44,9 @@ class inicio(APIView):
 
 
 class CrearUsuarioView(generics.CreateAPIView):
+	"""
+	Crear el usuario
+	"""
 	model = get_user_model()
 	permission_classes = [permissions.AllowAny]
 	serializer_class = UsuarioSerializer
@@ -51,12 +54,26 @@ class CrearUsuarioView(generics.CreateAPIView):
 
 
 class RegistrarView(generics.CreateAPIView):
+	"""
+	Hola desde unidad
+	"""
 	queryset = Usuario.objects.all()
 	permission_classes=[permissions.AllowAny]
 	serializer_class = RegistrarSerializer
 
 
 class CrearProyectoAPIView(generics.CreateAPIView):
+
+	"""
+	Creamos el Proyecto.
+	 Campos:
+	 		Usuario quien lo crea 
+	 		titulo
+	        Descripcion
+	        Socio, un operador quien puede añadir, eliminar y editar las tareas
+	        Fecha de creacion
+
+	"""
 	serializer_class = ProyectoSerializer
 	permission_classes = [permissions.IsAuthenticated]
 
@@ -77,11 +94,13 @@ class CrearTareaAPIView(generics.CreateAPIView):
 			serializer.save(proyecto=proyecto, usuario=self.request.user)
 		
 	
-
-
-
-
 class ProyectoListaAPIView(generics.ListAPIView):
+
+	"""
+	Retornamos un Queryset de todo los proyectos creados
+
+	"""
+
 	serializer_class = ProyectoSerializer
 	pagination_class = ResultadoStandarPaginacion
 	permission_classes = [permissions.AllowAny]

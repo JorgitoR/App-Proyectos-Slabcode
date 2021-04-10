@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'advanced_filters',
     'django_admin_listfilter_dropdown',
     'adminfilters',
+    'drf_yasg',
 
     #App local
     'Proyecto',
@@ -114,6 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+SWAGGER_SETTINGS = {
+        
+    'DOC_EXPANSION':'none'
+
+}   
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
