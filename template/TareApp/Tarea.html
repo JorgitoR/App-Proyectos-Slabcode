@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenido %}
+
+<div class="jumbotron text-center">
+  <h2>Bienvenido {{ user }}</h2>
+
+
+  <button class="btn btn-warning">
+
+
+    Proyecto: {{project.estado}}
+
+  </button>
+
+
+  {% if tarea_obj %}
+      {% if added %}
+      <div class="alert alert-success">
+        <h3>Tarea creada exitosamente!</h3>
+      </div>
+      {% endif %}
+
+      {% if edited %}
+      <div class="alert alert-success">
+        <h3>Tarea Edita exitosamente!</h3>
+      </div>
+      {% endif %}
+
+
+      <br>
+      <table class="table table-hover">
+          <thead>
+              <th>Proyecto</th>
+              <th>Tarea</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+          </thead>
+          {% for t in tarea_obj %}
+            {% if t.terminado == False %}
+            <tr>
+                <td><a href="{% url 'CrearTarea' t.proyecto.id  %}">{{ t.proyecto.titulo  }}</a></td>
+                <td><a href="{% url 'edit' t.id %}">{{ t.descripcion }}</a></td>
+                <td>{{ t.fecha }}</td>
+                <td><form  method="post">
+                      {% csrf_token %}
+                      <input type="checkbox" id="checkbox" name="terminado" value="{{t.id}}">
+                      <button type="submit" value="Mark as complete" class="btn btn-success">Marcar como Terminada!!</button>
+                      <!-- <input type="submit"  value="Mark as complete"> -->
+                    </form>
+                  </td>
+
+                <td>
+                  <a href="{% url 'delete' t.id %}"><i class="fa fa-trash"></i></a>
+                  <a href="{% url 'CrearTarea' t.proyecto.id %}">
+                    <i class="fas fa-plus-square"></i>
+                  </a>
+                  <a href="{% url 'edit' t.id %}">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                </td>
+             
+            </tr>
+            {% endif %}
+
+          {% endfor %}
+      </table>
+      <br><br>
+      <h3>Tareas Realizadas</h3>
+      <br>
+      <table class="table table-bordered">
+          <thead>
+              <th>Proyecto</th>
+              <th>Tarea</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+          </thead>
+          {% for t in tarea_obj %}
+            {% if t.terminado == True %}
+              <tr>
+                <td>{{ t.proyecto.titulo }}</td>
+                <td>{{ t.descripcion }}</td>
+                <td>{{ t.fecha }}</td>
+                <td>Terminado</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+      </table>
+
+
+  {% else %}
+      <br><br><br>
+      <p>No haz Añadido ninguna Tarea</p>
+      <br>
+      <p>Crear la primera!!</p>
+      <form action="{% url 'CrearTarea' project.id %}" method="post">
+            {% csrf_token %}
+            <div class="text-center">
+              <button type="submit" align="center" class="btn btn-success">Añadir Tarea!!</button>
+            </div>
+      </form>
+  {% endif %}
+
+</div>
+
+
+{% endblock %}

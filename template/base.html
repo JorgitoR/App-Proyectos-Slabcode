@@ -1,0 +1,352 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>
+		{% block titulo %}
+		{% endblock %}
+	</title>
+
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Rubik" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Rubik" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+{% include 'header.html' %}
+
+{% block contenido %}
+{% endblock %}
+
+<style>
+	.color-gris{
+		color: grey;
+	}	
+	.color-rojo{
+		color: red;
+	}
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script>
+
+	function getParameterByName(name, url) {
+
+    	if (!url) url = window.location.href;
+    	name = name.replace(/[\[\]]/g, '\\$&');
+    	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        	results = regex.exec(url);
+    	if (!results) return null;
+    	if (!results[2]) return '';
+    	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+	}
+	
+
+function DivContenedor(ProyectoId, fetchOneID){
+
+		var query = getParameterByName('q')
+		var proyectoLista = [];
+	
+  		var proyectDiv;
+  		if (ProyectoId){
+    		proyectDiv = $("#" + ProyectoId)
+  		} else {
+    		proyectDiv = $("#contenedor_proyecto")
+    		alert(proyectDiv)
+  		}
+
+
+  		var UrlInicial = "/api/proyectos"
+  		console.log(UrlInicial)
+
+  	
+
+  		function formatProyecto(proyectoValue){
+
+
+  			var proyectDiv = "<div class='jumbotron'><button class='btn btn-warning'>Proyecto: "+ proyectoValue.estado +"</button><p><strong>Usuario: </strong>" + proyectoValue.creado_por.username +"</p><p><strong>Titulo: </strong>" + proyectoValue.titulo +"</p><p><strong>Descripcion: </strong>" + proyectoValue.descripcion +"</p><small><strong>Fecha: </strong>" + proyectoValue.creado_tiempo +"</small><div><a href='/toogle/"+ proyectoValue.id +"'><button class='btn btn-success'>Ver Proyecto</button></a> <a href='/proyecto/"+ proyectoValue.id +"/crear_tarea/'><button class='btn btn-info'>Agregar Tareas</button></a></div></div>"
+
+  			return proyectDiv
+
+  		}
+
+  		function AdjuntarProyecto(proyectoValue, prepend){
+
+  			var ProyectoHTML;
+
+  			ProyectoHTML = formatProyecto(proyectoValue)
+
+  			if(prepend){
+  				proyectDiv.prepend(ProyectoHTML)
+  			}else{
+  				proyectDiv.append(ProyectoHTML)
+  			}
+
+  		}
+
+
+  		function pasarProyecto(){
+  			if(proyectoLista == 0){
+
+  				proyectDiv.text("No encontramos algun Proyecto")
+
+  			}else{
+
+  				$.each(proyectoLista, function(key, value){
+  					console.log(key)
+  					console.log(value.nombre)
+  					console.log(proyectoLista)
+
+  					var ProyectoKey = key;
+  					console.log(ProyectoKey)
+  					AdjuntarProyecto(value)
+  				});
+  			}
+  		}
+
+
+    function logout(url){
+
+      $.ajax({
+
+        url : url,
+        method: "GET",
+
+        success : function(data){
+
+
+          console.log(data)
+
+        },
+        error : function(data){
+          console.log('Error')
+          console.log(data)
+        }
+
+
+      });
+
+    }
+
+    $('#logout').click(function(evento){
+
+      url = '/api/logout/'
+      logout(url)
+
+    })
+
+
+  		var UrlNext;
+
+		function FetchProyecto(url){
+
+			var fecthUrl;
+
+    		if (!url) {
+      			fecthUrl = UrlInicial
+				//alert('!url ' + fecthUrl)
+    		} else {
+      			fecthUrl = url
+				//alert('url ' + fecthUrl)
+    		}
+			$.ajax({
+
+				url : fecthUrl,
+				method : "GET",
+				success : function(data){
+
+					console.log(data)
+					proyectoLista = data.results
+
+
+					console.log('Siguiente Url', data.next)
+					if(data.next){
+
+						UrlNext = data.next
+						
+					}else{
+						$('#cargar_mas').css("display", "none")
+
+					}
+
+					pasarProyecto()
+				},
+				error :  function(data){
+
+					console.log("ERROR")
+					console.log(data)
+					
+				}
+				
+			});
+		}	
+
+
+	
+		FetchProyecto()
+
+
+
+		$('#cargar_mas').click(function(event){
+			event.preventDefault()
+
+
+			//alert('NEXT ' + UrlNext)
+			url =UrlInicial
+
+
+    		if (UrlNext  === undefined || UrlNext === null) {
+
+    			FetchProyecto(url)
+    		}else{
+    			FetchProyecto(UrlNext)
+    		}
+
+		})
+
+
+		var max_length =140;
+		var min_length =0;
+
+		$('.proyecto_form').append("<span class='NombreCaracter'>"+ max_length +"</span> ")
+
+		$('.proyecto_form input').keyup(function(event){
+			console.log(event.key, event.timeStamp)
+			var NombreValor = $(this).val()
+			console.log(NombreValor)
+			console.log(NombreValor.length)
+
+			min_length = max_length - NombreValor.length
+			var SpanNum = $(this).parent().parent().parent().find('.NombreCaracter')
+			console.log(SpanNum)
+			SpanNum.text(min_length)
+
+			if(min_length > 50){
+
+				SpanNum.removeClass("color-gris")
+				SpanNum.removeClass("color-rojo")
+
+			}else if(min_length == 0){
+
+				SpanNum.addClass("color-gris")
+
+			}else if(min_length < 20) {
+				SpanNum.removeClass("color-gris")
+				SpanNum.addClass("color-rojo")
+			}
+
+		});
+
+
+		$('.proyecto_form').submit(function(event){
+			event.preventDefault()
+			var this_ = $(this)
+			var formData = this_.serialize()
+
+			if(min_length >=0 ){
+
+			$.ajax({
+				url : "/api/crear_proyecto/",
+				data : formData,
+				method : 'POST',
+
+				success : function(data){
+					this_.find("input[type=text], textarea").val("")
+					AdjuntarProyecto(data, true)
+				},
+
+				error : function(data){
+					console.log("ERROR")
+					console.log(data)
+				}
+
+			})
+
+			}else{
+				alert("Excede los 140")
+			}
+		});
+
+}
+
+
+          // Esta funcion obtiene un cookie con un nombre de pila
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // ¿Esta cadena de cookies comienza con el nombre que queremos?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    /*
+    La funcion abajo creará un header con csrf_token
+    */
+
+    function csrfSafeMethod(method) {
+       
+        //Este metodo HTTP no requiere la protecion CSRF  
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        //  prueba que una URL dada es una URL del mismo origen
+        // url podría ser relativo o esquema relativo o absoluto
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Permitir URLs absolutas o relativas al mismo origen
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // o cualquier otra URL que no sea un esquema relativo o absoluto, es decir, relativo.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Envia el Token al mismo origen,solo URL relativas.
+                // Envíe el token solo si el método garantiza la protección CSRF
+                // Usando el valor CSRFToken adquirido anteriormente
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+
+
+</script>
+
+{% block script %}{% endblock %}
+
+</body>
+</html>

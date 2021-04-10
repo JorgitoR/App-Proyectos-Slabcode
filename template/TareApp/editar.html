@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenido %}
+<div class="jumbotron">
+    <h3>Editar La tarea: {{tarea_obj.descripcion}}</h3>
+
+    <div id="container">
+      <form  enctype="multipart/form-data"  method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- <input type="submit" name="" value="save"> -->
+        <button type="submit" id="button1" value="save" class="btn btn-success">Guardar!!</button>
+      </form>
+      <br>
+      <form  action="{%  url 'mis_tareas' %}"  method="post">
+        {% csrf_token %}
+        <button type="submit" id="button2" value="cancel" class="btn btn-danger">Cancelar</button>
+      </form>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

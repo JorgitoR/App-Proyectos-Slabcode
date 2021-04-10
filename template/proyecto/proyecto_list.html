@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+  DivContenedor("contenedor_proyecto")
+});
+</script>
+{% endblock script %}
+
+
+{% block contenido %}
+
+<div class="container my-4">
+	{% if request.user.is_authenticated %}
+    <div class="jumbotron">
+		
+	      <h2 class="text-center text-info">¡¡Felicidades!! {{request.user}} Has iniciado sesión correctamente..</h2>
+	</div>
+
+	<div class="col-sm-9">
+		{% if not request.GET.q %}
+			<div class="col-sm-9">
+                    {% include "proyecto/crear.html" with form=crear_proyecto action_url=crear_url btn_title='Crear Proyecto' form_class='proyecto_form' %}
+			</div>
+		{% endif %}
+	</div>
+
+	
+	{% endif %}
+
+	<div class="ProyectoDiv" id="contenedor_proyecto" data-url='/api/proyectos/'>
+	</div>
+
+	<a href="#" id="cargar_mas">Cargar Mas Proyectos</a>
+
+</div>
+
+{% endblock %}
+
+

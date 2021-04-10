@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+
+{% block contenido %}
+	
+
+<div class="jumbotron text-center">
+  
+  <h2>Crear Tarea al  {{ proyecto.titulo }}</h2>
+
+
+
+	<form method="post">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button type="submit">
+			Enviar
+		</button>
+	</form>
+
+
+</div>
+
+{% endblock %}
