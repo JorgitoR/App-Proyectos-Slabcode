@@ -74,3 +74,6 @@ Una aplicación web de administración de de Proyectos con  sus tareas la cual d
  
 </ol>
 
+
+<img src="https://i.ibb.co/bgn6Q57/admin-1.jpg">
+
